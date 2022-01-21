@@ -1,5 +1,11 @@
+##### Ping a machine (This is not ICMP ping)
 ```
 ansible localhost -m ping 
+```
+
+##### Touch a file
+```
+ansible localhost -m file -a "path=ansible.txt state=touch"
 ```
 
 ##### Test Ansible is working
