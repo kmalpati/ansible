@@ -1,0 +1,39 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+          - name: install updates (RedHat)
+            tags: always
+            yum:
+                    update_only: yes
+                    update_cache: yes
+            when: ansible_distribution == "RedHat"
+
+          - name: install updates (Ubuntu)
+            tags: always
+            apt:
+                    upgrade: dist
+                    update_cache: yes
+            when: ansible_distribution == "Ubuntu"
+
+
+- hosts: all
+  become: true
+  tasks:
+          - name: create uansi user
+            user:
+                    name: uansi
+                    groups: root
+          
+          - name: add ssh key for uansi
+            authorized_key:
+                    user: uansi
+                    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHLrZI7Le4CTYqJg47X8S1uYeR607h/xGnCplVEEF2j0 ansible"
+
+          - name: add sudoers file for uansi
+            copy:
+                    src: sudoer_uansi
+                    dest: /etc/sudoers.d/uansi
+                    owner: root
+                    group: root
+                    mode: 0440          

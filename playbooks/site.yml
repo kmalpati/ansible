@@ -6,15 +6,15 @@
           - name: install updates (RedHat)
             tags: always
             yum:
-                    update_only: yes
                     update_cache: yes
+            changed_when: false        
             when: ansible_distribution == 'RedHat'
 
           - name: install updates (Ubuntu)
             tags: always
             apt:
-                    upgrade: dist
                     update_cache: yes
+            changed_when: false        
             when: ansible_distribution == 'Ubuntu'
 
 - hosts: workstations
